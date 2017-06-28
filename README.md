@@ -1,4 +1,4 @@
-# quick-sort-algorithm
+# Quick sort algorithm
 
 
 ## Introdution

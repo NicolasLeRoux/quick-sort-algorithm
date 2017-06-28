@@ -2,27 +2,41 @@
  * TODO...
  */
 
-const generator = function* generator(array, pivot) {
-	const clone = array.slice(0),
-		tmpIndex = 0; // TODO: Find proper name for this index
+const switchValue = function switchValue (array, indexA, indexB) {
+	const clone = array.slice(0);
 
-	for (let i = 0, iLength = clone.length - 1; i < iLength; i++) {
-		if (clone[i] <= clone[iLength - 1]) {
-			// TODO The switch should be done in another place
-			var tmp = clone[i];
-			clone[i] = clone[tmpIndex];
-			clone[tmpIndex] = tmp;
+	clone[indexA] = array[indexB];
+	clone[indexB] = array[indexA];
 
-			tmpIndex++;
+	return clone;
+}
 
-			yield {
-				array: clone.slice(0),
-				selected: tmpIndex // What is realy needed to the display...
-			};
+const partition = function partition(array, firstIndex, lastIndex, pivotIndex) {
+	var clone = switchValue(array, pivotIndex, lastIndex),
+		partitionIndex, tmpValue;
+
+	for (let i = firstIndex; i < lastIndex; i++) {
+		if (clone[i] <= clone[lastIndex]) {
+			clone = switchValue(array, i, partitionIndex);
+
+			partitionIndex++;
 		}
 	}
+
+	return partitionIndex;
 };
 
+const generator = function* generator(array, pivot) {
+	// TODO
+	/*
+	si premier < dernier alors
+		pivot := choix_pivot(T, premier, dernier)
+		pivot := partitionner(T, premier, dernier, pivot)
+		tri_rapide(T, premier, pivot-1)
+		tri_rapide(T, pivot+1, dernier)
+	fin si
+	*/
+}
 
 module.exports = class QuickSort {
 	constructor(array, pivot) {
@@ -31,8 +45,18 @@ module.exports = class QuickSort {
 		this._steps = [];
 	}
 
-	next() { // TODO
-		return null;
+	compute() {
+		const genObj = generator(this._array, this._pivot);
+
+		this._steps = [...genObj];
+	}
+
+	next() {
+		if (!this._genObj) {
+			this._genObj = generator(this._array, this._pivot);
+		}
+
+		return this._genObj.next();
 	}
 
 	getStep(no) {

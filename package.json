@@ -4,7 +4,7 @@
   "description": "Quick sort algorithm",
   "main": "index.js",
   "scripts": {
-    "pretest": "npm run eslint",
+    "pretest:new": "npm run eslint",
     "test": "node ./node_modules/mocha/bin/mocha test.js",
     "prestart": "npm run browserify",
     "start": "http-server",
