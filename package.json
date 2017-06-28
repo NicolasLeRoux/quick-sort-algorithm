@@ -1,0 +1,30 @@
+{
+  "name": "quick-sort-algorithm",
+  "version": "0.0.1",
+  "description": "Quick sort algorithm",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "npm run eslint",
+    "test": "node ./node_modules/mocha/bin/mocha test.js",
+    "prestart": "npm run browserify",
+    "start": "http-server",
+    "browserify": "browserify index.js -o demo/index.js -s BubbleSort",
+    "eslint": "eslint index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NicolasLeRoux/quick-sort-algorithm.git"
+  },
+  "keywords": [
+    "quick sort"
+  ],
+  "author": {
+    "name": "Nicolas Le Roux",
+    "email": "mr.leroux.nicolas+quick-sort-algorithm@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NicolasLeRoux/quick-sort-algorithm/issues"
+  },
+  "homepage": "https://github.com/NicolasLeRoux/quick-sort-algorithm#readme"
+}
