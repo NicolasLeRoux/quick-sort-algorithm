@@ -5,4 +5,4 @@
 
 About the quick sort: https://en.wikipedia.org/wiki/Quicksort
 
-random pivot selection
+The algo should used a random pivot selection.
