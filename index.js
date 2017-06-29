@@ -11,9 +11,14 @@ const switchValue = function switchValue (array, indexA, indexB) {
 	return clone;
 }
 
+const extractPivot = function extractPivot(array, first, last) {
+	return first;
+}
+
 const partition = function partition(array, firstIndex, lastIndex, pivotIndex) {
 	var clone = switchValue(array, pivotIndex, lastIndex),
-		partitionIndex, tmpValue;
+		partitionIndex = firstIndex,
+		tmpValue;
 
 	for (let i = firstIndex; i < lastIndex; i++) {
 		if (clone[i] <= clone[lastIndex]) {
@@ -22,20 +27,23 @@ const partition = function partition(array, firstIndex, lastIndex, pivotIndex) {
 			partitionIndex++;
 		}
 	}
+	clone = switchValue(array, lastIndex, partitionIndex);
 
 	return partitionIndex;
 };
 
-const generator = function* generator(array, pivot) {
-	// TODO
-	/*
-	si premier < dernier alors
-		pivot := choix_pivot(T, premier, dernier)
-		pivot := partitionner(T, premier, dernier, pivot)
-		tri_rapide(T, premier, pivot-1)
-		tri_rapide(T, pivot+1, dernier)
-	fin si
-	*/
+const generator = function* generator(array, first, last) {
+	var firstIndex = first || 0,
+		lastIndex = last || array.length - 1,
+		pivotIndex;
+
+	if (firstIndex < lastIndex) {
+		pivotIndex = extractPivot(array, firstIndex, lastIndex);
+		pivotIndex = partition(array, firstIndex, lastIndex, pivotIndex);
+
+		generator(array, firstIndex, pivotIndex - 1);
+		generator(array, pivotIndex + 1, lastIndex);
+	}
 }
 
 module.exports = class QuickSort {
@@ -46,14 +54,14 @@ module.exports = class QuickSort {
 	}
 
 	compute() {
-		const genObj = generator(this._array, this._pivot);
+		const genObj = generator(this._array);
 
 		this._steps = [...genObj];
 	}
 
 	next() {
 		if (!this._genObj) {
-			this._genObj = generator(this._array, this._pivot);
+			this._genObj = generator(this._array);
 		}
 
 		return this._genObj.next();
