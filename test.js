@@ -23,12 +23,12 @@ describe("The instanciation (without computation) of the sort object,", function
 
 describe("The instanciation (with computation) of the sort object,", function () {
 	var sort,
-		array = [3, 1, 6, 2, 5, 4];
+		array = [3, 9, 6, 2, 7, 4, 5, 8, 1];
 
 	beforeEach(function () {
 		sort = new Sort(array, 0);
 		sort.compute();
-		console.log(sort.steps);
+		console.log("Results: ", array, sort.steps);
 	});
 
 	it("Should ...", function () {

@@ -12,7 +12,7 @@ const switchValue = function switchValue (array, indexA, indexB) {
 }
 
 const extractPivot = function extractPivot(array, first, last) {
-	return first;
+	return first; // TODO Randomize this...
 }
 
 const partition = function partition(array, firstIndex, lastIndex, pivotIndex) {
@@ -22,27 +22,40 @@ const partition = function partition(array, firstIndex, lastIndex, pivotIndex) {
 
 	for (let i = firstIndex; i < lastIndex; i++) {
 		if (clone[i] <= clone[lastIndex]) {
-			clone = switchValue(array, i, partitionIndex);
+			clone = switchValue(clone, i, partitionIndex);
 
 			partitionIndex++;
 		}
 	}
-	clone = switchValue(array, lastIndex, partitionIndex);
+	clone = switchValue(clone, lastIndex, partitionIndex);
 
-	return partitionIndex;
+	return {
+		array: clone,
+		index: partitionIndex
+	};
 };
 
 const generator = function* generator(array, first, last) {
 	var firstIndex = first || 0,
 		lastIndex = last || array.length - 1,
+		clone = array.slice(0),
+		tmp,
 		pivotIndex;
 
 	if (firstIndex < lastIndex) {
 		pivotIndex = extractPivot(array, firstIndex, lastIndex);
-		pivotIndex = partition(array, firstIndex, lastIndex, pivotIndex);
+		tmp = partition(array, firstIndex, lastIndex, pivotIndex); // TODO Dirty...
+		pivotIndex = tmp.index;
+		clone = tmp.array;
 
-		generator(array, firstIndex, pivotIndex - 1);
-		generator(array, pivotIndex + 1, lastIndex);
+		console.log("Left partition: ", clone, firstIndex, pivotIndex - 1);
+		console.log("Right partition: ", clone, pivotIndex + 1, lastIndex);
+		yield *generator(clone, firstIndex, pivotIndex - 1);
+		yield *generator(clone, pivotIndex + 1, lastIndex);
+	}
+
+	yield {
+		array: clone
 	}
 }
 
