@@ -2,32 +2,25 @@
  * TODO...
  */
 
-const switchValue = function switchValue (array, indexA, indexB) {
-	const clone = array.slice(0);
-
-	clone[indexA] = array[indexB];
-	clone[indexB] = array[indexA];
-
-	return clone;
-}
+const utils = require('./utils.js');
 
 const extractPivot = function extractPivot(array, first, last) {
 	return first; // TODO Randomize this...
 }
 
 const partition = function partition(array, firstIndex, lastIndex, pivotIndex) {
-	var clone = switchValue(array, pivotIndex, lastIndex),
+	var clone = utils.switchValue(array, pivotIndex, lastIndex),
 		partitionIndex = firstIndex,
 		tmpValue;
 
 	for (let i = firstIndex; i < lastIndex; i++) {
 		if (clone[i] <= clone[lastIndex]) {
-			clone = switchValue(clone, i, partitionIndex);
+			clone = utils.switchValue(clone, i, partitionIndex);
 
 			partitionIndex++;
 		}
 	}
-	clone = switchValue(clone, lastIndex, partitionIndex);
+	clone = utils.switchValue(clone, lastIndex, partitionIndex);
 
 	return {
 		array: clone,
@@ -48,6 +41,7 @@ const generator = function* generator(array, first, last) {
 		pivotIndex = tmp.index;
 		clone = tmp.array;
 
+		console.log("Index: ", firstIndex, lastIndex);
 		console.log("Left partition: ", clone, firstIndex, pivotIndex - 1);
 		console.log("Right partition: ", clone, pivotIndex + 1, lastIndex);
 		yield *generator(clone, firstIndex, pivotIndex - 1);

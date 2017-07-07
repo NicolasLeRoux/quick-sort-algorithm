@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "pretest:new": "npm run eslint",
-    "test": "node ./node_modules/mocha/bin/mocha test.js",
+    "test": "node ./node_modules/mocha/bin/mocha *.specs.js",
     "prestart": "npm run browserify",
     "start": "http-server",
     "browserify": "browserify index.js -o demo/index.js -s BubbleSort",
